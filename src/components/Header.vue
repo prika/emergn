@@ -1,33 +1,138 @@
 <template>
 	<header class="resume__header" itemscope itemtype="http://schema.org/Person">
-		<img
-			class="resume__photo"
-			itemprop="image"
-			alt="John Smith Photo"
-			src="@/assets/photo.jpg"
-			width="245px"
-			height="245px"
-		/>
-		<div class="resume__title">
-			<button v-on:click="printPage()" class="button right">Print this page</button>
+		<figure>
+			<img class="resume__photo" itemprop="image" alt="John Smith Photo" src="@/assets/photo.jpg" />
+		</figure>
 
-			<input type="text" :placeholder="name" name="name" itemprop="name" v-model="name" />
-			<h1 itemprop="name">{{ name }}</h1>
+		<form class="resume__title">
+			<div class="container-edit-input container-edit-input__bigger">
+				<label itemprop="name" for="inputname" v-if="!isEditingName">
+					<h1>{{ name }}</h1>
+				</label>
+				<input
+					id="inputname"
+					class="h1"
+					type="text"
+					name="name"
+					itemprop="name"
+					:aria-label="name"
+					v-model="name"
+					tabindex="0"
+					@focus="editName()"
+				/>
 
-			<input type="text" :placeholder="name" name="name" itemprop="name" v-model="name" />
-			<h3 itemprop="homeLocation">{{city}}</h3>
+				<!--v-show="!hasNewName"-->
+				<button
+					class="control-buttons control-buttons__accept"
+					tabindex="1"
+					type="submit"
+					v-on:click="saveNewName()"
+					v-if="isEditingName"
+					:disabled="!hasNewName"
+				></button>
+				<button
+					class="control-buttons control-buttons__reject"
+					tabindex="2"
+					type="submit"
+					v-on:click="returnName()"
+					v-if="isEditingName"
+				></button>
+			</div>
 
-			<!-- <h2 itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-				<span itemprop="addressLocality">Portland</span>,
-				<span itemprop="addressRegion">Oregon</span>,
-				<span itemprop="addressCountry">USA</span>
-			</h2>-->
-			<h3>English</h3>
+			<div class="container-edit-input">
+				<label for="inputcity" v-if="!isEditingCity" @click="editCity()">
+					<h3>{{ city }}</h3>
+				</label>
+				<input
+					id="inputcity"
+					class="h3"
+					type="text"
+					name="city"
+					:aria-label="city"
+					v-model="city"
+					tabindex="3"
+					@focus="editCity()"
+				/>
 
-			<ul class="list-skills list-skills--inline" itemscope itemtype="http://schema.org/ItemList">
-				<li class="list-skills__item" itemprop="itemListElement">PHP</li>
-			</ul>
-			<a href>Add skills</a>
+				<button
+					class="control-buttons control-buttons__accept"
+					tabindex="4"
+					type="submit"
+					v-on:click="saveNewCity()"
+					v-if="isEditingCity"
+				></button>
+				<button
+					class="control-buttons control-buttons__reject"
+					tabindex="5"
+					type="submit"
+					v-on:click="returnCity()"
+					v-if="isEditingCity"
+				></button>
+			</div>
+
+			<div class="container-edit-input">
+				<label for="inputlanguage" v-if="!isEditingLanguage" @click="editLanguage()">
+					<h3>{{ language }}</h3>
+				</label>
+				<input
+					id="inputlanguage"
+					class="h3"
+					type="text"
+					name="language"
+					:aria-label="language"
+					v-model="language"
+					tabindex="6"
+					@focus="editLanguage()"
+				/>
+
+				<button
+					class="control-buttons control-buttons__accept"
+					tabindex="7"
+					type="submit"
+					v-on:click="saveNewLanguage()"
+					v-if="isEditingLanguage"
+				></button>
+
+				<!-- v-on:click="returnLanguage()" -->
+				<button
+					class="control-buttons control-buttons__reject"
+					tabindex="8"
+					type="button"
+					v-if="isEditingLanguage"
+				></button>
+			</div>
+
+			<ol class="list-skills list-skills--inline" itemscope itemtype="http://schema.org/ItemList">
+				<li
+					v-for="(skill, index) in skills"
+					:key="index"
+					class="list-skills__item"
+					:class="'level'+skill.level"
+					itemprop="itemListElement"
+				>{{skill.name}}</li>
+			</ol>
+
+			<div class="container-edit-input container-edit-input__list">
+				<input id="inputskill" type="text" placeholder="Add Skills" @focus="isEditingSkills = true" />
+
+				<select v-if="isEditingSkills">
+					<option value="Strong">Strong</option>
+					<option value="Medium">Medium</option>
+					<option value="Low">Low</option>
+				</select>
+
+				<button
+					class="control-buttons control-buttons__accept"
+					type="submit"
+					@click="saveNewLanguage()"
+					v-if="isEditingLanguage"
+				></button>
+			</div>
+			<!-- <a @click="editSkills()" href="javacript:void(0)">Add skills</a> -->
+		</form>
+
+		<div id="printButtonContainer">
+			<button tabindex="9" v-on:click="printPage()" class="button">Print this page</button>
 		</div>
 	</header>
 </template>
@@ -36,13 +141,107 @@
 	export default {
 		name: "Header",
 		props: {
-			city: String,
-			name: String
+			initialname: String,
+			initialcity: String,
+			initiallanguage: String,
+			initialskills: Array
+		},
+		data() {
+			return {
+				isEditingName: false,
+				hasNewName: false,
+				name: this.initialname,
+				newName: "",
+
+				isEditingCity: false,
+				hasNewCity: false,
+				city: this.initialcity,
+				newCity: "",
+
+				isEditingLanguage: false,
+				hasNewLanguage: false,
+				language: this.initiallanguage,
+				newLanguage: "",
+
+				isEditingSkills: false,
+				hasNewSkills: false,
+				skills: this.initialskills,
+				newSkills: []
+			};
 		},
 		methods: {
 			printPage: function() {
 				window.print();
+			},
+			editName: function() {
+				this.isEditingName = true;
+			},
+			saveNewName: function() {
+				this.isEditingName = false;
+			},
+			returnName: function() {
+				this.isEditingName = false;
+			},
+
+			editCity: function() {
+				this.isEditingCity = true;
+			},
+			saveNewCity: function() {
+				this.isEditingCity = false;
+			},
+			returnCity: function() {
+				this.isEditingCity = false;
+			},
+
+			editLanguage: function() {
+				this.isEditingLanguage = true;
+			},
+			saveNewLanguage: function() {
+				this.isEditingLanguage = false;
+			},
+			returnLanguage: function() {
+				this.isEditingLanguage = false;
+			},
+
+			editSkills: function() {
+				this.isEditingSkills = true;
+			},
+			saveNewSkill: function() {
+				this.isEditingSkills = false;
+			},
+			returnSkill: function() {
+				this.isEditingSkills = false;
 			}
+			/* validateName: function() {
+																																																																																																														this.cont_name_account_error = this.cont_name_account === "";
+																																																																																																														this.cont_name_account_validator = this.cont_name_account_error
+																																																																																																															? this.error_required
+																																																																																																															: "";
+																																																																																																														return !this.cont_name_account_error;
+																																																																																																													}, */
+		},
+		created() {
+			/* savedName: function() {
+																																																																																																																																																										
+																																																																																																																															return this.initialname;
+																																																																																																																														} */
+		},
+		/* computed(){
+																																																																																																																														hasNewName: () {
+																																																																																																																															return name = newName 
+																																																																																																																														}
+																																																																																																																													}, */
+		watch: {
+			name: function(newVal, oldVal) {
+				console.log(newVal);
+				console.log(oldVal);
+				//this.validateName();
+			}
+			/* ,
+																																																																																																																														city: function(newVal, oldVal) {	
+																																																																																																																														},
+																																																																																																																														skills: function(newVal, oldVal) {
+																																																																																																																														} */
 		}
 	};
 </script>
@@ -50,39 +249,151 @@
 <style lang="scss">
 	.resume__header {
 		background-color: #e6e6e6;
-		width: 100%;
-		min-height: 238px;
-
-		display: -webkit-flex;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
+		border: 1px solid #e6e6e6;
+		margin: -1px;
+		display: grid;
+		grid-template-columns: 25% 55% 20%;
 
 		.resume__photo {
-			//width: 100%;
-			float: left;
-			-webkit-flex: 25%;
-			-ms-flex: 25%;
-			flex: 25%;
+			height: 238px;
 		}
 
 		.resume__title {
-			width: 100%;
-			-webkit-flex: 75%;
-			-ms-flex: 75%;
-			flex: 75%;
-			padding: 20px 30px;
+			position: relative;
+			padding: 1.25em 1.875em;
+		}
 
-			button {
-				margin-top: 50px;
+		#printButtonContainer {
+			float: right;
+			text-align: right;
+			padding: 1.65em 2.6em 0 0;
+		}
+	}
+
+	.container-edit-input {
+		position: relative;
+		height: 20px;
+		margin-bottom: 5px;
+
+		input {
+			display: block;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 2;
+			line-height: 100%;
+			letter-spacing: 0;
+			padding-left: 0.1em;
+		}
+
+		label {
+			position: absolute;
+			top: 3px;
+			bottom: 0;
+			left: 4px;
+			z-index: 1;
+			height: 100%;
+			line-height: 100%;
+			letter-spacing: 0;
+		}
+
+		.control-buttons {
+			position: absolute;
+			z-index: 4;
+			width: 21px;
+			height: 21px;
+			border-radius: 100%;
+			background-color: #e6e6e6;
+			border: 1px solid #e6e6e6;
+			top: 0.8em;
+
+			&.control-buttons__accept {
+				right: 34px;
+			}
+			&.control-buttons__reject {
+				right: 7px;
+
+				&:hover {
+					background-color: #fa736f;
+					border-color: #f91400;
+				}
 			}
 		}
+	}
 
-		.left {
-			float: left;
+	.container-edit-input__bigger {
+		height: 41px;
+	}
+
+	.container-edit-input__bigger label {
+		top: 12px;
+		left: 2px;
+	}
+
+	.container-edit-input__list {
+		width: 16.0625em;
+		height: 1.6875em;
+		position: relative;
+		margin-top: 0.625em;
+
+		select {
+			position: absolute;
+			right: 10%;
+			top: 5%;
+			height: 90%;
+			line-height: 100%;
+			z-index: 2;
 		}
-		.right {
-			float: right;
+
+		a {
+			position: absolute;
+			left: 1em;
+			top: 0;
+			display: block;
+		}
+
+		#inputskill {
+			font-size: 0.875em;
+
+			&::placeholder {
+				color: #000;
+			}
+
+			&:focus {
+				border-color: #00ff00;
+			}
+		}
+	}
+
+	.list-skills {
+		padding: 0;
+		margin-top: 20px;
+
+		li {
+			display: inline-block;
+			list-style: none;
+			text-align: center;
+			text-transform: uppercase;
+
+			margin-right: 0.375em;
+			font-size: 0.8125em;
+			color: #fff;
+			padding: 0.3em 0.65em;
+			border-radius: 2px;
+
+			&.level1 {
+				background: #a2a2a2;
+			}
+			&.level2 {
+				background: #5c5c5c;
+			}
+			&.level3 {
+				background: #000;
+			}
 		}
 	}
 </style>
+
+

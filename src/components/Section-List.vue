@@ -1,26 +1,32 @@
 <template>
-	<article>
-		<h2>Portfolio</h2>
-		<p>PHP, Ruby, Javascript</p>
+	<div>
+		<header>
+			<h2>{{title}}</h2>
+			<p class="text-aline-center text-size-medium">{{subtitle}}</p>
+		</header>
+
 		<ul class="list-block">
-			<li class="list-block__item">NavalPlan, PHP, Ruby</li>
-			<li class="list-block__item">MyTime, Javascript</li>
-			<li class="list-block__item">Formidable, PHP, Ruby</li>
-			<li class="list-block__item">MyTime, Javascript</li>
-			<li class="list-block__item">Monsoon, ActionScript</li>
+			<li v-for="(item, index) in content" :key="index" class="list-block__item">
+				<b>{{item.topic1}}</b>
+				{{item.topic2}}
+			</li>
 		</ul>
-	</article>
+	</div>
 </template>
 
 <script>
 	export default {
-		name: "List",
+		name: "ArticleList",
 		props: {
 			title: String,
-			subtitle: String
+			subtitle: String,
+			content: Array
 		}
 	};
 </script>
 
 <style lang="scss">
+	.list-block__item {
+		padding: 0.14em 0;
+	}
 </style>

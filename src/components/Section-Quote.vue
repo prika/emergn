@@ -1,19 +1,65 @@
 <template>
-	<article>
-		<h2>The most amazing …</h2>
-		<blockquote>… Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua et dolore magna aliqua et dol ut labore et dolore</blockquote>
-	</article>
+	<div class="articlequote_block">
+		<header>
+			<h2>{{title}}</h2>
+		</header>
+
+		<blockquote>
+			{{content}}
+			<p class="text-bold text-align-right text-small">{{subtitle}}</p>
+		</blockquote>
+	</div>
 </template>
 
 <script>
 	export default {
-		name: "Header",
+		name: "ArticleQuote",
 		props: {
-			city: String,
-			name: String
+			title: String,
+			content: String,
+			subtitle: String
 		}
 	};
 </script>
 
 <style lang="scss">
+	.articlequote_block {
+		position: relative;
+		height: 100%;
+
+		&::before,
+		&::after {
+			display: block;
+			height: 30px;
+			width: 37px;
+			background: url("../assets/quote.jpg") no-repeat center;
+			content: "";
+			position: absolute;
+			z-index: 0;
+		}
+
+		&::before {
+			top: 58px;
+			left: 16px;
+			-webkit-transform: rotate(180deg);
+			-moz-transform: rotate(180deg);
+			transform: rotate(180deg);
+		}
+		&::after {
+			bottom: 14px;
+			right: 16px;
+		}
+
+		blockquote {
+			position: relative;
+			z-index: 1;
+			padding: 0.355em 0;
+
+			p {
+				font-family: "Roboto";
+				font-style: normal;
+				margin-top: 0.6em;
+			}
+		}
+	}
 </style>
