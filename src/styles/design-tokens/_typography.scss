@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital@1&family=Roboto:wght@400;500;700&display=swap');
+
+/* ==========================================================================
+   #TYPOGRAPHY-VARIABLES
+   ========================================================================== */
+
+$font-body: 'Roboto', Arial, Helvetica, sans-serif;
+$font-blockquote: 'Source Serif Pro', serif;
+$base-font-size: 16px;
+$letter-spacing: 0.1em;
+
+
+/**
+ * Base.
+ *
+ */
+
+body{
+	font-family: $font-body;
+	color: $color-text-gray;
+}
+
+h1, .h1{
+   @include font-size(32px);
+	font-weight: normal;
+	color: $color-text-dark;
+	letter-spacing: 0;
+}
+
+h2, .h2 {
+   @include font-size(16px);
+	font-weight: bold;
+	letter-spacing: 0.01em;
+	color: $color-text-gray;
+}
+
+h3, .h3 {
+   @include font-size(14px);
+	font-weight: bold;
+	color: $color-text-gray;
+}
+
+p  {
+	font-size: 0.875em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+a {
+	&,
+	&:active,
+	&:focus,
+	&:hover,
+	&:visited {
+		text-decoration: none;
+	}
+}
+
+
+/**
+ * Headings.
+ *
+ */
+
+.u-h1 { @include font-size(32px, important); }
+.u-h2 { @include font-size(16px, important); }
+.u-h3 { @include font-size(14px, important); }
+
+
+/**
+ * Adjustments.
+ *
+*/
+.u-text\+\+ { font-size: larger  !important; }
+.u-text--   { font-size: smaller !important; letter-spacing: -0.02em;}
+
+.u-text-regular 	{font-weight: normal!important;}
+.u-text-bold 		{font-weight: bold!important;}
+
+
+/**
+ * Alignments.
+ */
+.u-text-right   { text-align:    right !important; }
+.u-text-left    { text-align: left     !important; }
+.u-text-center  { text-align:  center  !important; }
+.u-text-justify { text-align: justify  !important; }

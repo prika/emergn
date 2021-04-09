@@ -1,0 +1,52 @@
+.list-skills {
+    padding: 0;
+    margin-top: 20px;
+}
+
+.list-skills__item {
+    display: inline-block;
+    list-style: none;
+    cursor: default;
+
+    font-size: 0.8125em;
+    color: $color-text-white;
+    text-align: center;
+    text-transform: uppercase;
+
+    position: relative;
+    margin-right: 0.375em;
+    margin-bottom: 0.375em;
+    padding: 0.3em 0.65em;
+    
+    border-top-left-radius:     2px;
+    border-top-right-radius:    2px;
+    border-bottom-left-radius:  2px;
+    border-bottom-right-radius: 2px;
+    
+
+    &.level1 {
+        background: $color-skill-level-1;
+    }
+    &.level2 {
+        background: $color-skill-level-2;
+    }
+    &.level3 {
+        background: $color-skill-level-3;
+    }
+
+    .control-buttons {
+        opacity: 0;
+
+        &.control-buttons__accept {
+            right: 0;
+        }
+        &.control-buttons__reject {
+            top: 1px;
+            right: 3px;
+        }
+    }
+
+    &:hover > .control-buttons {
+        opacity: 1;
+    }
+}

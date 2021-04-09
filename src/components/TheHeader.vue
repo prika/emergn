@@ -1,17 +1,30 @@
 <template>
 	<header class="resume__header" itemscope itemtype="http://schema.org/Person">
-		<figure class="resume__photo">
-			<img itemprop="image" alt="John Smith Photo" src="@/assets/photo.jpg" width="100%" />
-		</figure>
+		<img
+			class="resume__photo"
+			itemprop="image"
+			alt="John Smith Photo"
+			src="@/assets/photo.jpg"
+			width="100%"
+		/>
 
-		<form class="resume__form">
-			<div class="contentEditable contentEditable__bigger">
-				<label id="labelName" itemprop="name" v-if="!isEditingName" @click="editName()">
+		<div class="resume__form">
+			<div
+				class="c-content-editable c-content-editable__bigger"
+				:class="isEditingName === true ? 'c-content-editable--editmode' : ''"
+			>
+				<label
+					class="c-content-editable-label"
+					id="labelName"
+					itemprop="name"
+					v-if="!isEditingName"
+					@click.prevent="editName()"
+				>
 					<h1>{{ name }}</h1>
 				</label>
 
 				<input
-					class="h1"
+					class="u-h1 c-content-editable-input"
 					id="inputname"
 					type="text"
 					name="name"
@@ -25,62 +38,85 @@
 				<button
 					class="control-buttons control-buttons__accept"
 					tabindex="1"
-					type="submit"
-					v-on:click="saveNewName()"
+					@click.prevent="saveNewName()"
 					v-if="isEditingName"
 					:disabled="isEditingName && !hasNewName"
-				></button>
+				>
+					<BaseIconAccept></BaseIconAccept>
+				</button>
 				<button
 					class="control-buttons control-buttons__reject"
 					tabindex="2"
-					type="submit"
-					v-on:click="resetName()"
+					@click.prevent="resetName()"
 					v-if="isEditingName"
-				></button>
+				>
+					<BaseIconReject></BaseIconReject>
+				</button>
 			</div>
 
-			<div class="contentEditable">
-				<label for="inputcity" v-if="!isEditingCity" @click="editCity()">
+			<div
+				class="c-content-editable"
+				:class="isEditingCity === true ? 'c-content-editable--editmode' : ''"
+			>
+				<label
+					class="c-content-editable-label"
+					for="inputcity"
+					v-if="!isEditingCity"
+					@click.prevent="editCity()"
+				>
 					<h3>{{ city }}</h3>
 				</label>
 				<input
-					class="h3"
+					class="u-h3 u-text-bold c-content-editable-input"
 					id="inputcity"
 					type="text"
 					name="city"
 					:aria-label="city"
 					v-model="city"
 					tabindex="3"
+					v-if="isEditingCity"
 					@focus="editCity()"
 				/>
 
 				<button
 					class="control-buttons control-buttons__accept"
 					tabindex="4"
-					type="submit"
-					v-on:click="saveNewCity()"
+					@click.prevent="saveNewCity()"
 					v-if="isEditingCity"
-				></button>
+					:disabled="isEditingCity && !hasNewCity"
+				>
+					<BaseIconAccept></BaseIconAccept>
+				</button>
 				<button
 					class="control-buttons control-buttons__reject"
 					tabindex="5"
-					type="submit"
-					v-on:click="returnCity()"
+					@click.prevent="resetCity()"
 					v-if="isEditingCity"
-				></button>
+				>
+					<BaseIconReject></BaseIconReject>
+				</button>
 			</div>
 
-			<div class="contentEditable">
-				<label for="inputlanguage" v-if="!isEditingLanguage" @click="editLanguage()">
+			<div
+				class="c-content-editable"
+				:class="isEditingLanguage === true ? 'c-content-editable--editmode' : ''"
+			>
+				<label
+					class="c-content-editable-label"
+					for="inputlanguage"
+					v-if="!isEditingLanguage"
+					@click.prevent="editLanguage()"
+				>
 					<h3>{{ language }}</h3>
 				</label>
 				<input
-					class="h3"
+					class="u-h3 u-text-bold c-content-editable-input"
 					id="inputlanguage"
 					type="text"
 					name="language"
 					:aria-label="language"
 					v-model="language"
+					v-if="isEditingLanguage"
 					tabindex="6"
 					@focus="editLanguage()"
 				/>
@@ -88,18 +124,21 @@
 				<button
 					class="control-buttons control-buttons__accept"
 					tabindex="7"
-					type="submit"
-					v-on:click="saveNewLanguage()"
+					@click.prevent="saveNewLanguage()"
 					v-if="isEditingLanguage"
-				></button>
+					:disabled="isEditingLanguage && !hasNewLanguage"
+				>
+					<BaseIconAccept></BaseIconAccept>
+				</button>
 
-				<!-- v-on:click="returnLanguage()" -->
 				<button
 					class="control-buttons control-buttons__reject"
 					tabindex="8"
-					type="button"
 					v-if="isEditingLanguage"
-				></button>
+					@click.prevent="resetLanguage()"
+				>
+					<BaseIconReject></BaseIconReject>
+				</button>
 			</div>
 
 			<ol class="list-skills list-skills--inline" itemscope itemtype="http://schema.org/ItemList">
@@ -113,22 +152,27 @@
 					{{skill.name}}
 					<button
 						class="control-buttons control-buttons__reject"
-						@click="removeSkill()"
-						v-if="isEditingSkills"
-					></button>
+						@click.prevent="removeSkill(index)"
+					>
+						<BaseIconReject></BaseIconReject>
+					</button>
 				</li>
 			</ol>
 
-			<div class="contentEditable contentEditable__list">
+			<div
+				class="c-content-editable c-content-editable__list"
+				:class="isEditingSkills === true ? 'c-content-editable--editmode' : ''"
+			>
 				<input
 					id="inputskill"
 					ref="skillName"
+					v-model="inputskillmodel"
 					type="text"
 					placeholder="Add Skills"
 					@focus="isEditingSkills = true"
 				/>
 
-				<select v-if="isEditingSkills" v-model="skillLevel">
+				<select id="selectlevel" v-if="isEditingSkills" v-model="skillLevel">
 					<option value="3">Strong</option>
 					<option value="2">Medium</option>
 					<option value="1">Low</option>
@@ -136,21 +180,25 @@
 
 				<button
 					class="control-buttons control-buttons__accept"
-					type="submit"
-					@click="saveNewSkill()"
 					v-if="isEditingSkills"
-				></button>
+					@click.prevent="saveNewSkill()"
+				>
+					<BaseIconAccept></BaseIconAccept>
+				</button>
 			</div>
-			<!-- <a @click="editSkills()" href="javacript:void(0)">Add skills</a> -->
-		</form>
+		</div>
 
 		<div id="printButtonContainer">
-			<button tabindex="9" v-on:click="printPage()" class="button">Print this page</button>
+			<button class="base-button" @click.prevent="printPage()">Print this page</button>
 		</div>
 	</header>
 </template>
 
+
 <script>
+	import BaseIconAccept from "@/components/BaseIconAccept.vue";
+	import BaseIconReject from "@/components/BaseIconReject.vue";
+
 	export default {
 		name: "Header",
 		props: {
@@ -158,6 +206,10 @@
 			headerInitialCity: String,
 			headerInitialLanguage: String,
 			headerInitialSkills: Array
+		},
+		components: {
+			BaseIconAccept,
+			BaseIconReject
 		},
 		data() {
 			return {
@@ -174,6 +226,7 @@
 				originalLanguage: this.headerInitialLanguage,
 
 				isEditingSkills: false,
+				inputskillmodel: "",
 				skills: this.headerInitialSkills,
 				skillName: String,
 				skillLevel: 1
@@ -208,7 +261,7 @@
 
 				// TODO: Call API to update city
 			},
-			returnCity: function() {
+			resetCity: function() {
 				this.city = this.originalCity;
 				this.isEditingCity = false;
 
@@ -224,7 +277,7 @@
 
 				// TODO: Call API to update language
 			},
-			returnLanguage: function() {
+			resetLanguage: function() {
 				this.language = this.originalLanguage;
 				this.isEditingLanguage = false;
 
@@ -235,21 +288,15 @@
 				this.isEditingSkills = true;
 			},
 			saveNewSkill: function() {
-				this.isEditingSkills = false;
-
-				if (
-					this.$refs.skillName.value != null &&
-					this.$refs.skillName.value != "" &&
-					this.$refs.skillName.value !== this.skills
-				) {
+				if (this.hasNewSkill) {
 					let obj = { name: this.$refs.skillName.value, level: this.skillLevel };
 					this.skills.push(obj);
 					this.$refs.skillName.value = "";
-					this.sortedSkills();
+					this.sortLevel(this.skills);
 				}
 			},
-			removeSkill: function() {
-				this.isEditingSkills = false;
+			removeSkill: function(index) {
+				this.skills.splice(index, 1);
 			},
 			sortLevel(arr) {
 				return arr.slice().sort((b, a) => a.level - b.level);
@@ -272,159 +319,15 @@
 					this.language != "" &&
 					this.language !== this.originalLanguage
 				);
+			},
+			hasNewSkill: function() {
+				return (
+					this.$refs.skillName.value != null && this.$refs.skillName.value != ""
+				);
 			}
 		}
 	};
 </script>
 
 <style lang="scss">
-	.resume__header {
-		background-color: #e6e6e6;
-		border: 1px solid #e6e6e6;
-		margin: -1px;
-		display: grid;
-		grid-template-columns: 25% 55% 20%;
-
-		.resume__photo {
-			width: 100%;
-		}
-
-		.resume__form {
-			position: relative;
-			padding: 1.25em 1.875em;
-		}
-
-		#printButtonContainer {
-			float: right;
-			text-align: right;
-			padding: 1.65em 2.6em 0 0;
-		}
-	}
-
-	.contentEditable {
-		position: relative;
-		height: 20px;
-		margin-bottom: 5px;
-
-		input {
-			display: block;
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 2;
-			line-height: 100%;
-			letter-spacing: 0;
-			padding-left: 0.1em;
-		}
-
-		label {
-			position: absolute;
-			top: 3px;
-			bottom: 0;
-			left: 4px;
-			z-index: 1;
-			height: 100%;
-			line-height: 100%;
-			letter-spacing: 0;
-		}
-
-		.control-buttons {
-			position: absolute;
-			z-index: 4;
-			width: 21px;
-			height: 21px;
-			border-radius: 100%;
-			background-color: #e6e6e6;
-			border: 1px solid #e6e6e6;
-			top: 0.8em;
-
-			&.control-buttons__accept {
-				right: 34px;
-			}
-			&.control-buttons__reject {
-				right: 7px;
-
-				&:hover {
-					background-color: #fa736f;
-					border-color: #f91400;
-				}
-			}
-		}
-	}
-
-	.contentEditable__bigger {
-		height: 41px;
-	}
-
-	.contentEditable__bigger label {
-		top: 12px;
-		left: 2px;
-	}
-
-	.contentEditable__list {
-		width: 16.0625em;
-		height: 1.6875em;
-		position: relative;
-		margin-top: 0.625em;
-
-		select {
-			position: absolute;
-			right: 10%;
-			top: 5%;
-			height: 90%;
-			line-height: 100%;
-			z-index: 2;
-		}
-
-		a {
-			position: absolute;
-			left: 1em;
-			top: 0;
-			display: block;
-		}
-
-		#inputskill {
-			font-size: 0.875em;
-
-			&::placeholder {
-				color: #000;
-			}
-
-			&:focus {
-				border-color: #00ff00;
-			}
-		}
-	}
-
-	.list-skills {
-		padding: 0;
-		margin-top: 20px;
-
-		li {
-			display: inline-block;
-			list-style: none;
-			text-align: center;
-			text-transform: uppercase;
-
-			margin-right: 0.375em;
-			font-size: 0.8125em;
-			color: #fff;
-			padding: 0.3em 0.65em;
-			border-radius: 2px;
-
-			&.level1 {
-				background: #a2a2a2;
-			}
-			&.level2 {
-				background: #5c5c5c;
-			}
-			&.level3 {
-				background: #000;
-			}
-		}
-	}
 </style>
-
-

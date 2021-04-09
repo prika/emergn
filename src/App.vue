@@ -80,6 +80,5 @@
 </script>
 
 <style lang="scss">
-	@import "@/styles/base";
-	@import "@/styles/print";
+	@import "@/styles/main";
 </style>

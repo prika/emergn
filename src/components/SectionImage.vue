@@ -3,7 +3,7 @@
 		href="http://www.github.com"
 		target="_blank"
 		rel="nofollow noreferrer"
-		class="articleimage_block"
+		class="block-image"
 		:style="{'background-image':'url(' + getImgUrl(content) +')'}"
 	>
 		<h2>{{title}}</h2>
@@ -26,7 +26,7 @@
 </script>
 
 <style lang="scss">
-	a.articleimage_block {
+	a.block-image {
 		margin-top: 0;
 		height: 100%;
 		display: block;

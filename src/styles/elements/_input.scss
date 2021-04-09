@@ -1,0 +1,15 @@
+input {
+	border: 1px solid transparent;
+	background: $color-gray-light;
+
+	&:hover{
+		border-color: $color-gray;
+	}
+
+	&:focus,
+	&:active {
+		border-color: $color-gray;
+		background: $color-white;	
+		outline: transparent;
+	}
+}

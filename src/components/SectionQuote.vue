@@ -1,12 +1,12 @@
 <template>
-	<div class="articlequote_block">
+	<div class="block-quote">
 		<header>
 			<h2>{{title}}</h2>
 		</header>
 
 		<blockquote>
 			{{content}}
-			<p class="text-bold text-align-right text-small">{{subtitle}}</p>
+			<p class="block-quote__author u-text-bold u-text-right u-text--">{{subtitle}}</p>
 		</blockquote>
 	</div>
 </template>
@@ -23,7 +23,7 @@
 </script>
 
 <style lang="scss">
-	.articlequote_block {
+	.block-quote {
 		position: relative;
 		height: 100%;
 
@@ -55,7 +55,7 @@
 			z-index: 1;
 			padding: 0.355em 0;
 
-			p {
+			.block-quote__author {
 				font-family: "Roboto";
 				font-style: normal;
 				margin-top: 0.6em;

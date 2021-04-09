@@ -1,0 +1,5 @@
+ul {
+	font-size: 0.875em;
+	
+	li::marker{ list-style-position: inherit; }
+}

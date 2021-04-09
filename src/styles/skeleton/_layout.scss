@@ -1,0 +1,58 @@
+.container{
+	max-width: 960px;
+}
+
+
+.resume__container {		
+	display: grid;
+	margin: var(--flow-space, 1em) auto;
+	--flow-space: .7rem;
+}
+
+.resume__content {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+
+	article {
+		border: 1px solid $color-gray-light;
+		margin: -1px;
+		min-height: 240px;
+		background-color: $color-white;
+
+
+		div {
+			padding: 1.3em 1.55em;
+
+			header {
+				height: 3.18em;
+			}
+		}
+
+		h2 {
+			text-align: center;
+		}
+	}
+}
+
+
+.resume__header {
+	background-color: $color-gray-light;
+	border: 1px solid $color-gray-light;
+	margin: -1px;
+	display: grid;
+	grid-template-columns: 25% 55% 20%;
+
+	.resume__photo {
+		width: 100%;
+	}
+
+	.resume__form {
+		position: relative;
+		padding: 1.25em 1.875em;
+	}
+
+	#printButtonContainer {
+		text-align: right;
+		padding: 1.65em 2.6em 0 0;
+	}
+}

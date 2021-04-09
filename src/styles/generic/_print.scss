@@ -1,0 +1,35 @@
+/* print styles */
+@media print {
+    body {
+        color: $color-text-dark; 
+    }
+
+    button, input, select {
+        display: none!important;
+    }
+
+    .resume__header {
+        background: $color-white!important;
+    }
+    
+    .resume__photo {
+        @include filter(brightness, 120%);
+        @include filter(contrast, 150%);
+    }
+
+    .resume__content{
+        //border: none;
+        grid-template-columns: repeat(3, 1fr)!important;
+    }
+
+    .resume__content article {
+        border: 1px solid $color-gray-light;
+        min-height: 230px;
+    }
+
+    @page {
+        size: letter;
+    }
+}
+
+
