@@ -1,14 +1,15 @@
 <template>
 	<header class="resume__header" itemscope itemtype="http://schema.org/Person">
-		<figure>
-			<img class="resume__photo" itemprop="image" alt="John Smith Photo" src="@/assets/photo.jpg" />
+		<figure class="resume__photo">
+			<img itemprop="image" alt="John Smith Photo" src="@/assets/photo.jpg" width="100%" />
 		</figure>
 
-		<form class="resume__title">
-			<div class="resume__editable_input resume__editable_input--  container-edit-input container-edit-input__bigger">
-				<label id="inputname" itemprop="name" v-if="!isEditingName" @click="editName()">
+		<form class="resume__form">
+			<div class="contentEditable contentEditable__bigger">
+				<label id="labelName" itemprop="name" v-if="!isEditingName" @click="editName()">
 					<h1>{{ name }}</h1>
 				</label>
+
 				<input
 					class="h1"
 					id="inputname"
@@ -21,7 +22,6 @@
 					@focus="editName()"
 					v-if="isEditingName"
 				/>
-
 				<button
 					class="control-buttons control-buttons__accept"
 					tabindex="1"
@@ -39,7 +39,7 @@
 				></button>
 			</div>
 
-			<div class="container-edit-input">
+			<div class="contentEditable">
 				<label for="inputcity" v-if="!isEditingCity" @click="editCity()">
 					<h3>{{ city }}</h3>
 				</label>
@@ -70,7 +70,7 @@
 				></button>
 			</div>
 
-			<div class="container-edit-input">
+			<div class="contentEditable">
 				<label for="inputlanguage" v-if="!isEditingLanguage" @click="editLanguage()">
 					<h3>{{ language }}</h3>
 				</label>
@@ -104,28 +104,41 @@
 
 			<ol class="list-skills list-skills--inline" itemscope itemtype="http://schema.org/ItemList">
 				<li
-					v-for="(skill, index) in skills"
+					v-for="(skill, index) in sortLevel(skills)"
 					:key="index"
 					class="list-skills__item"
 					:class="'level'+skill.level"
 					itemprop="itemListElement"
-				>{{skill.name}}</li>
+				>
+					{{skill.name}}
+					<button
+						class="control-buttons control-buttons__reject"
+						@click="removeSkill()"
+						v-if="isEditingSkills"
+					></button>
+				</li>
 			</ol>
 
-			<div class="container-edit-input container-edit-input__list">
-				<input id="inputskill" type="text" placeholder="Add Skills" @focus="isEditingSkills = true" />
+			<div class="contentEditable contentEditable__list">
+				<input
+					id="inputskill"
+					ref="skillName"
+					type="text"
+					placeholder="Add Skills"
+					@focus="isEditingSkills = true"
+				/>
 
-				<select v-if="isEditingSkills">
-					<option value="Strong">Strong</option>
-					<option value="Medium">Medium</option>
-					<option value="Low">Low</option>
+				<select v-if="isEditingSkills" v-model="skillLevel">
+					<option value="3">Strong</option>
+					<option value="2">Medium</option>
+					<option value="1">Low</option>
 				</select>
 
 				<button
 					class="control-buttons control-buttons__accept"
 					type="submit"
-					@click="saveNewLanguage()"
-					v-if="isEditingLanguage"
+					@click="saveNewSkill()"
+					v-if="isEditingSkills"
 				></button>
 			</div>
 			<!-- <a @click="editSkills()" href="javacript:void(0)">Add skills</a> -->
@@ -153,19 +166,17 @@
 				originalName: this.headerInitialName,
 
 				isEditingCity: false,
-				hasNewCity: false,
 				city: this.headerInitialCity,
-				newCity: "",
+				originalCity: this.headerInitialCity,
 
 				isEditingLanguage: false,
-				hasNewLanguage: false,
 				language: this.headerInitialLanguage,
-				newLanguage: "",
+				originalLanguage: this.headerInitialLanguage,
 
 				isEditingSkills: false,
-				hasNewSkills: false,
 				skills: this.headerInitialSkills,
-				newSkills: []
+				skillName: String,
+				skillLevel: 1
 			};
 		},
 		methods: {
@@ -192,20 +203,32 @@
 				this.isEditingCity = true;
 			},
 			saveNewCity: function() {
+				this.originalCity = this.city;
 				this.isEditingCity = false;
+
+				// TODO: Call API to update city
 			},
 			returnCity: function() {
+				this.city = this.originalCity;
 				this.isEditingCity = false;
+
+				// TODO: Call API to update city
 			},
 
 			editLanguage: function() {
 				this.isEditingLanguage = true;
 			},
 			saveNewLanguage: function() {
+				this.originalLanguage = this.language;
 				this.isEditingLanguage = false;
+
+				// TODO: Call API to update language
 			},
 			returnLanguage: function() {
+				this.language = this.originalLanguage;
 				this.isEditingLanguage = false;
+
+				// TODO: Call API to update language
 			},
 
 			editSkills: function() {
@@ -213,9 +236,42 @@
 			},
 			saveNewSkill: function() {
 				this.isEditingSkills = false;
+
+				if (
+					this.$refs.skillName.value != null &&
+					this.$refs.skillName.value != "" &&
+					this.$refs.skillName.value !== this.skills
+				) {
+					let obj = { name: this.$refs.skillName.value, level: this.skillLevel };
+					this.skills.push(obj);
+					this.$refs.skillName.value = "";
+					this.sortedSkills();
+				}
 			},
-			returnSkill: function() {
+			removeSkill: function() {
 				this.isEditingSkills = false;
+			},
+			sortLevel(arr) {
+				return arr.slice().sort((b, a) => a.level - b.level);
+			}
+		},
+		computed: {
+			hasNewName: function() {
+				return (
+					this.name != null && this.name != "" && this.name !== this.originalName
+				);
+			},
+			hasNewCity: function() {
+				return (
+					this.city != null && this.city != "" && this.city !== this.originalCity
+				);
+			},
+			hasNewLanguage: function() {
+				return (
+					this.language != null &&
+					this.language != "" &&
+					this.language !== this.originalLanguage
+				);
 			}
 		}
 	};
@@ -233,7 +289,7 @@
 			width: 100%;
 		}
 
-		.resume__title {
+		.resume__form {
 			position: relative;
 			padding: 1.25em 1.875em;
 		}
@@ -245,7 +301,7 @@
 		}
 	}
 
-	.container-edit-input {
+	.contentEditable {
 		position: relative;
 		height: 20px;
 		margin-bottom: 5px;
@@ -298,16 +354,16 @@
 		}
 	}
 
-	.container-edit-input__bigger {
+	.contentEditable__bigger {
 		height: 41px;
 	}
 
-	.container-edit-input__bigger label {
+	.contentEditable__bigger label {
 		top: 12px;
 		left: 2px;
 	}
 
-	.container-edit-input__list {
+	.contentEditable__list {
 		width: 16.0625em;
 		height: 1.6875em;
 		position: relative;
