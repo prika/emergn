@@ -1,41 +1,41 @@
 <template>
-	<div class="resume">
-		<resumeheader
-			initialname="John Smith"
-			initialcity="Portland, Oregon, USA"
-			initiallanguage="English"
-			:initialskills="initialskills"
+	<div class="resume__container container">
+		<TheHeader
+			headerInitialName="John Smith"
+			headerInitialCity="Portland, Oregon, USA"
+			headerInitialLanguage="English"
+			:headerInitialSkills="initialSkills"
 		/>
 
-		<main class="resume__container">
-			<article v-for="(unit, index) in blocks" :id="unit.id" :key="index">
+		<main class="resume__content">
+			<article v-for="(block, index) in blocks" :key="index">
 				<SectionList
-					v-if="unit.type == 1"
-					:title="unit.title"
-					:subtitle="unit.subtitle"
-					:content="unit.content"
+					v-if="block.type == 1"
+					:articleTitle="block.title"
+					:articleSubtitle="block.subtitle"
+					:articleContent="block.content"
 				></SectionList>
 
 				<SectionImage
-					v-if="unit.type == 2"
-					:title="unit.title"
-					:subtitle="unit.subtitle"
-					:content="unit.content"
+					v-if="block.type == 2"
+					:title="block.title"
+					:subtitle="block.subtitle"
+					:content="block.content"
 				></SectionImage>
 
 				<SectionAvailability
-					v-if="unit.type == 3"
-					:title="unit.title"
-					:subtitle="unit.subtitle"
-					:title2="unit.title2"
-					:content="unit.content"
+					v-if="block.type == 3"
+					:title="block.title"
+					:subtitle="block.subtitle"
+					:title2="block.title2"
+					:content="block.content"
 				></SectionAvailability>
 
 				<SectionQuote
-					v-if="unit.type == 4"
-					:title="unit.title"
-					:subtitle="unit.subtitle"
-					:content="unit.content"
+					v-if="block.type == 4"
+					:title="block.title"
+					:subtitle="block.subtitle"
+					:content="block.content"
 					class="article"
 				></SectionQuote>
 			</article>
@@ -44,18 +44,18 @@
 </template>
 
 <script>
-	import resumeheader from "./components/Header.vue";
-	import SectionList from "./components/Section-List.vue";
-	import SectionImage from "./components/Section-Image.vue";
-	import SectionAvailability from "./components/Section-Availability.vue";
-	import SectionQuote from "./components/Section-Quote.vue";
+	import TheHeader from "./components/TheHeader.vue";
+	import SectionList from "./components/SectionList.vue";
+	import SectionImage from "./components/SectionImage.vue";
+	import SectionAvailability from "./components/SectionAvailability.vue";
+	import SectionQuote from "./components/SectionQuote.vue";
 
 	export default {
 		name: "resume",
 		data() {
 			return {
 				blocks: [],
-				initialskills: [
+				initialSkills: [
 					{ name: "PHP", level: 3 },
 					{ name: "Ruby", level: 3 },
 					{ name: "Javascript", level: 2 },
@@ -64,13 +64,14 @@
 			};
 		},
 		components: {
-			resumeheader,
+			TheHeader,
 			SectionList,
 			SectionImage,
 			SectionAvailability,
 			SectionQuote
 		},
 		created() {
+			// TODO: Handle loading error properly
 			this.$http.get("./mocks/cv.json").then(response => {
 				this.blocks = response.data;
 			});
@@ -79,6 +80,6 @@
 </script>
 
 <style lang="scss">
-	@import "./styles/base";
-	@import "./styles/print";
+	@import "@/styles/base";
+	@import "@/styles/print";
 </style>

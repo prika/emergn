@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<header>
-			<h2>{{title}}</h2>
-			<p class="text-aline-center text-size-medium">{{subtitle}}</p>
+			<h2>{{articleTitle}}</h2>
+			<p class="text-aline-center text-size-medium">{{articleSubtitle}}</p>
 		</header>
 
 		<ul class="list-block">
-			<li v-for="(item, index) in content" :key="index" class="list-block__item">
+			<li v-for="(item, index) in articleContent" :key="index" class="list-block__item">
 				<b>{{item.topic1}}</b>
 				{{item.topic2}}
 			</li>
@@ -18,9 +18,9 @@
 	export default {
 		name: "ArticleList",
 		props: {
-			title: String,
-			subtitle: String,
-			content: Array
+			articleTitle: String,
+			articleSubtitle: String,
+			articleContent: Array
 		}
 	};
 </script>

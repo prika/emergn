@@ -10,13 +10,8 @@ Vue.use({
   }
 })
 
-/* new Vue({
-  render: h => h(App)
-}).$mount('#resume') */
-
-
 const vue = new Vue({
   axios,
   render: function (h) { return h(App) }
 })
-vue.$mount('#resume')
+vue.$mount('#resumeApp')

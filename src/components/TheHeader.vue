@@ -5,13 +5,13 @@
 		</figure>
 
 		<form class="resume__title">
-			<div class="container-edit-input container-edit-input__bigger">
-				<label itemprop="name" for="inputname" v-if="!isEditingName">
+			<div class="resume__editable_input resume__editable_input--  container-edit-input container-edit-input__bigger">
+				<label id="inputname" itemprop="name" v-if="!isEditingName" @click="editName()">
 					<h1>{{ name }}</h1>
 				</label>
 				<input
-					id="inputname"
 					class="h1"
+					id="inputname"
 					type="text"
 					name="name"
 					itemprop="name"
@@ -19,22 +19,22 @@
 					v-model="name"
 					tabindex="0"
 					@focus="editName()"
+					v-if="isEditingName"
 				/>
 
-				<!--v-show="!hasNewName"-->
 				<button
 					class="control-buttons control-buttons__accept"
 					tabindex="1"
 					type="submit"
 					v-on:click="saveNewName()"
 					v-if="isEditingName"
-					:disabled="!hasNewName"
+					:disabled="isEditingName && !hasNewName"
 				></button>
 				<button
 					class="control-buttons control-buttons__reject"
 					tabindex="2"
 					type="submit"
-					v-on:click="returnName()"
+					v-on:click="resetName()"
 					v-if="isEditingName"
 				></button>
 			</div>
@@ -44,8 +44,8 @@
 					<h3>{{ city }}</h3>
 				</label>
 				<input
-					id="inputcity"
 					class="h3"
+					id="inputcity"
 					type="text"
 					name="city"
 					:aria-label="city"
@@ -75,8 +75,8 @@
 					<h3>{{ language }}</h3>
 				</label>
 				<input
-					id="inputlanguage"
 					class="h3"
+					id="inputlanguage"
 					type="text"
 					name="language"
 					:aria-label="language"
@@ -141,31 +141,30 @@
 	export default {
 		name: "Header",
 		props: {
-			initialname: String,
-			initialcity: String,
-			initiallanguage: String,
-			initialskills: Array
+			headerInitialName: String,
+			headerInitialCity: String,
+			headerInitialLanguage: String,
+			headerInitialSkills: Array
 		},
 		data() {
 			return {
 				isEditingName: false,
-				hasNewName: false,
-				name: this.initialname,
-				newName: "",
+				name: this.headerInitialName,
+				originalName: this.headerInitialName,
 
 				isEditingCity: false,
 				hasNewCity: false,
-				city: this.initialcity,
+				city: this.headerInitialCity,
 				newCity: "",
 
 				isEditingLanguage: false,
 				hasNewLanguage: false,
-				language: this.initiallanguage,
+				language: this.headerInitialLanguage,
 				newLanguage: "",
 
 				isEditingSkills: false,
 				hasNewSkills: false,
-				skills: this.initialskills,
+				skills: this.headerInitialSkills,
 				newSkills: []
 			};
 		},
@@ -177,10 +176,16 @@
 				this.isEditingName = true;
 			},
 			saveNewName: function() {
+				this.originalName = this.name;
 				this.isEditingName = false;
+
+				// TODO: Call API to update name
 			},
-			returnName: function() {
+			resetName: function() {
+				this.name = this.originalName;
 				this.isEditingName = false;
+
+				// TODO: Call API to update name
 			},
 
 			editCity: function() {
@@ -212,36 +217,6 @@
 			returnSkill: function() {
 				this.isEditingSkills = false;
 			}
-			/* validateName: function() {
-																																																																																																														this.cont_name_account_error = this.cont_name_account === "";
-																																																																																																														this.cont_name_account_validator = this.cont_name_account_error
-																																																																																																															? this.error_required
-																																																																																																															: "";
-																																																																																																														return !this.cont_name_account_error;
-																																																																																																													}, */
-		},
-		created() {
-			/* savedName: function() {
-																																																																																																																																																										
-																																																																																																																															return this.initialname;
-																																																																																																																														} */
-		},
-		/* computed(){
-																																																																																																																														hasNewName: () {
-																																																																																																																															return name = newName 
-																																																																																																																														}
-																																																																																																																													}, */
-		watch: {
-			name: function(newVal, oldVal) {
-				console.log(newVal);
-				console.log(oldVal);
-				//this.validateName();
-			}
-			/* ,
-																																																																																																																														city: function(newVal, oldVal) {	
-																																																																																																																														},
-																																																																																																																														skills: function(newVal, oldVal) {
-																																																																																																																														} */
 		}
 	};
 </script>
@@ -255,7 +230,7 @@
 		grid-template-columns: 25% 55% 20%;
 
 		.resume__photo {
-			height: 238px;
+			width: 100%;
 		}
 
 		.resume__title {
