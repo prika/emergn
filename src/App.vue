@@ -10,21 +10,16 @@
 		<main class="resume__content">
 			<article v-for="(block, index) in blocks" :key="index">
 				<SectionList
-					v-if="block.type == 1"
+					v-if="block.type == 'list'"
 					:articleTitle="block.title"
 					:articleSubtitle="block.subtitle"
 					:articleContent="block.content"
 				></SectionList>
 
-				<SectionImage
-					v-if="block.type == 2"
-					:title="block.title"
-					:subtitle="block.subtitle"
-					:content="block.content"
-				></SectionImage>
+				<SectionImage v-if="block.type == 'image'" :title="block.title" :content="block.content"></SectionImage>
 
 				<SectionAvailability
-					v-if="block.type == 3"
+					v-if="block.type == 'availability'"
 					:title="block.title"
 					:subtitle="block.subtitle"
 					:title2="block.title2"
@@ -32,7 +27,7 @@
 				></SectionAvailability>
 
 				<SectionQuote
-					v-if="block.type == 4"
+					v-if="block.type == 'quote'"
 					:title="block.title"
 					:subtitle="block.subtitle"
 					:content="block.content"

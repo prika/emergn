@@ -5,10 +5,10 @@
 			<p class="u-h1 u-text-bold block-availability__header-title">{{subtitle}}</p>
 		</header>
 
-		<main class="block-availability__main">
+		<div class="block-availability__main">
 			<h2 class="block-availability__second-title">{{title2}}</h2>
 			<p class="block-availability__text">{{content}}</p>
-		</main>
+		</div>
 	</div>
 </template>
 
