@@ -27,6 +27,7 @@
 <style lang="scss">
 	.block-availability {
 		padding: 0 !important;
+		display: -ms-grid;
 		display: grid;
 		-ms-grid-rows: 6.9em;
 		grid-template-rows: 6.9em;

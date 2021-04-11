@@ -1,6 +1,7 @@
 @media screen and (max-width: 992px) {
 	.resume__content,
 	.resume__header {
+		-ms-grid-columns: 1fr 1fr;
 		grid-template-columns: repeat(2, 1fr);
 	}
 
@@ -31,6 +32,7 @@
 @media screen and (max-width: 768px) {
 	.resume__content,
 	.resume__header {
+		-ms-grid-columns: 1fr 1fr;
 		grid-template-columns: repeat(1, 1fr);
 	}
 }

@@ -2,33 +2,31 @@
 	max-width: 960px;
 }
 
-
-.resume__container {		
-	display: grid;
-	margin: var(--flow-space, 1em) auto;
-	--flow-space: .7rem;
+.resume__container {	
+	margin: 0.7em auto;
 }
 
 .resume__content {
+	display: -ms-grid;
 	display: grid;
+	-ms-grid-columns: 1fr 1fr 1fr 1fr;
 	grid-template-columns: repeat(4, 1fr);
 
 	article {
 		border: 1px solid $color-gray-light;
 		margin: -1px;
-		min-height: 240px;
 		background-color: $color-white;
 
 
-		div {
+		& > div {
 			padding: 1.3em 1.55em;
 
-			header {
+			& > header {
 				height: 3.18em;
 			}
 		}
 
-		h2 {
+		& h2 {
 			text-align: center;
 		}
 	}
@@ -36,11 +34,13 @@
 
 
 .resume__header {
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 25% 55% 20%;
+	margin: -1px;
 	background-color: $color-gray-light;
 	border: 1px solid $color-gray-light;
-	margin: -1px;
-	display: grid;
-	grid-template-columns: 25% 55% 20%;
 
 	.resume__photo {
 		height: auto;

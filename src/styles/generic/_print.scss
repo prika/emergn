@@ -19,7 +19,9 @@
 
     .resume__content{
         //border: none;
+        -ms-grid-columns: 1fr 1fr 1fr!important;
         grid-template-columns: repeat(3, 1fr)!important;
+        
     }
 
     .resume__content article {
