@@ -5,7 +5,8 @@
 			itemprop="image"
 			alt="John Smith Photo"
 			src="@/assets/photo.jpg"
-			width="100%"
+			width="239"
+			height="239"
 		/>
 
 		<div class="resume__form">
@@ -13,15 +14,13 @@
 				class="c-content-editable c-content-editable__bigger"
 				:class="isEditingName === true ? 'c-content-editable--editmode' : ''"
 			>
-				<label
+				<h1
 					class="c-content-editable-label"
 					id="labelName"
 					itemprop="name"
 					v-if="!isEditingName"
 					@click.prevent="editName()"
-				>
-					<h1>{{ name }}</h1>
-				</label>
+				>{{ name }}</h1>
 
 				<input
 					class="u-h1 c-content-editable-input"
@@ -58,14 +57,12 @@
 				class="c-content-editable"
 				:class="isEditingCity === true ? 'c-content-editable--editmode' : ''"
 			>
-				<label
-					class="c-content-editable-label"
-					for="inputcity"
+				<h2
+					class="h3 c-content-editable-label"
 					v-if="!isEditingCity"
 					@click.prevent="editCity()"
-				>
-					<h3>{{ city }}</h3>
-				</label>
+				>{{ city }}</h2>
+
 				<input
 					class="u-h3 u-text-bold c-content-editable-input"
 					id="inputcity"
@@ -101,14 +98,12 @@
 				class="c-content-editable"
 				:class="isEditingLanguage === true ? 'c-content-editable--editmode' : ''"
 			>
-				<label
+				<h3
 					class="c-content-editable-label"
-					for="inputlanguage"
 					v-if="!isEditingLanguage"
 					@click.prevent="editLanguage()"
-				>
-					<h3>{{ language }}</h3>
-				</label>
+				>{{ language }}</h3>
+
 				<input
 					class="u-h3 u-text-bold c-content-editable-input"
 					id="inputlanguage"
@@ -153,6 +148,7 @@
 					<button
 						class="control-buttons control-buttons__reject"
 						@click.prevent="removeSkill(index)"
+						aria-label="Remove Skill"
 					>
 						<BaseIconReject></BaseIconReject>
 					</button>

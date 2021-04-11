@@ -1,12 +1,12 @@
 <template>
 	<a
+		class="block-image"
 		href="http://www.github.com"
 		target="_blank"
 		rel="nofollow noreferrer"
-		class="block-image"
 		:style="{'background-image':'url(' + getImgUrl(content) +')'}"
 	>
-		<h2>{{title}}</h2>
+		<h2 class="block-image-title">{{title}}</h2>
 	</a>
 </template>
 
@@ -32,14 +32,10 @@
 		display: block;
 		background-size: cover;
 		background-position: bottom left;
+	}
 
-		&:hover {
-			background-size: 150%;
-		}
-
-		h2 {
-			background: rgba(255, 255, 255, 0.8);
-			padding: 1.625em;
-		}
+	.block-image-title {
+		background: rgba(255, 255, 255, 0.8);
+		padding: 1.625em;
 	}
 </style>
