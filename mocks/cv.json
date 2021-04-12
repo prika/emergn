@@ -1,0 +1,97 @@
+[
+    {
+        "id": "block1",
+        "type": "list",
+        "title": "Portfolio",
+        "subtitle": "PHP, Ruby, Javascript",
+        "content": [
+            {
+                "topic1": "NavalPlan",
+                "topic2": "PHP, Ruby"
+            },
+            {
+                "topic1": "MyTime",
+                "topic2": "Javascript"
+            },
+            {
+                "topic1": "Formidable",
+                "topic2": "PHP, Ruby"
+            },
+            {
+                "topic1": "MyTime",
+                "topic2": "Javascript"
+            },
+            {
+                "topic1": "Monsoon",
+                "topic2": "ActionScript"
+            }
+        ]
+    },
+    {
+        "id": "block2",
+        "type": "list",
+        "title": "Experience",
+        "subtitle": "",
+        "content": [
+            {
+                "topic1": "PHP",
+                "topic2": "6 years"
+            },
+            {
+                "topic1": "Ruby",
+                "topic2": "7 years"
+            },
+            {
+                "topic1": "Javascript",
+                "topic2": "4 years"
+            },
+            {
+                "topic1": "ActionScript",
+                "topic2": "3 years"
+            }
+        ]
+    },
+    {
+        "id": "block3",
+        "type": "image",
+        "title": "Sample code and algorithms",
+        "subtitle": "",
+        "content": "code.jpg"
+    },
+    {
+        "id": "block4",
+        "type": "availability",
+        "title": "Availability",
+        "subtitle": "Full-time",
+        "title2": "Preferred environment",
+        "content": "Git, GitHub, vim, emacs, Jenkins, Mac OSX"
+    },
+    {
+        "id": "block5",
+        "type": "quote",
+        "title": "The most amazing ...",
+        "subtitle": "- Martin",
+        "content": "… Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua et dolore magna aliqua et dol ut labore et dolore"
+    },
+    {
+        "id": "block6",
+        "type": "quote",
+        "title": "In clients I look for ...",
+        "subtitle": "- Martin",
+        "content": "… Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+        "id": "block7",
+        "type": "empty",
+        "title": "",
+        "subtitle": "",
+        "content": ""
+    },
+    {
+        "id": "block8",
+        "type": "quote",
+        "title": "Note",
+        "subtitle": "",
+        "content": "… Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }
+]
