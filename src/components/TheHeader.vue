@@ -159,13 +159,20 @@
 				class="c-content-editable c-content-editable__list"
 				:class="isEditingSkills === true ? 'c-content-editable--editmode' : ''"
 			>
+				<label
+					for="inputskill"
+					class="u-text--"
+					@click.prevent="editSkills()"
+					v-if="!isEditingSkills"
+				>Add skill</label>
 				<input
 					id="inputskill"
 					ref="skillName"
 					v-model="inputskillmodel"
 					type="text"
-					placeholder="Add Skills"
-					@focus="isEditingSkills = true"
+					placeholder="Add skill"
+					v-if="isEditingSkills"
+					@focus="isEditingSkills"
 				/>
 
 				<select id="selectlevel" v-if="isEditingSkills" v-model="skillLevel">
@@ -287,9 +294,10 @@
 				if (this.hasNewSkill) {
 					let obj = { name: this.$refs.skillName.value, level: this.skillLevel };
 					this.skills.push(obj);
-					this.$refs.skillName.value = "";
 					this.sortLevel(this.skills);
 				}
+
+				this.$refs.skillName.value = "";
 			},
 			removeSkill: function(index) {
 				this.skills.splice(index, 1);

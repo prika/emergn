@@ -7,7 +7,8 @@
 
 		<ul class="block-list__list">
 			<li v-for="(item, index) in articleContent" :key="index" class="block-list__item">
-				<b>{{item.topic1}}</b>
+				<strong>{{item.topic1}}</strong>
+				,
 				{{item.topic2}}
 			</li>
 		</ul>
